@@ -1,15 +1,19 @@
 import csv
 import os
+import re
+import glob
 import numpy as np
 import time
 import matplotlib.pyplot as plt
 import math
 import pandas as pd
+import textwrap
 from MassLookup import get_nuclear_mass
 
 dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign"
 dir_6Lid = dir + "/6Lid"
 dir_dp = dir + "/dp"
+
 
 #region
 # Physical Constants #
@@ -17,7 +21,7 @@ dir_dp = dir + "/dp"
 avogadro_number = 6.02214076e23    # atoms/mol
 barn_to_cm2 = 1e-24                # 1 barn = 1e-24 cm^2
 U_TO_MEV = 931.49410242            # MeV per atomic mass unit (u)
-Z = 1                              # proton #'s
+Z = 3                              # proton #
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
@@ -27,7 +31,7 @@ Z = 1                              # proton #'s
 sampling_rate = 100       # integrator sampling rate in Hz
 
 # beam properties
-beam_charge = 1.602e-19     # Coulombs per elementary charge (e)
+beam_charge_state = Z * 1.602e-19     # charge state
 
 # detector geometry
 solid_angle = 0.00461641607338361    # sr, example value, set from your setup
@@ -37,7 +41,7 @@ solid_angle = 0.00461641607338361    # sr, example value, set from your setup
 # Target Information #
 
 # target thickness
-target_thickness = 9.25e-6
+target_thickness = 9.25e-5    # g/cm^2 for 9Be target
 
 # target molar mass
 target_molar_mass = 9.012182    # g/mol for 9Be
@@ -48,12 +52,11 @@ rho_cm = (target_thickness / target_molar_mass) * avogadro_number # atoms/cm^2
 # nuclei per barn
 rho_barn = rho_cm * barn_to_cm2  
 
-print(rho_barn, "nuclei/barn")
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 #endregion
 
-
-def lab_to_cm(theta_lab_deg, E_lab, m_A, m_a, m_b, m_B, Q):
+# not finished 10/06
+def lab_to_cm(theta_lab_deg, E_lab, m_A, m_a, m_b, m_B):
     """
     Calculates conversion Jacobians for angles and differential cross-sections
     between the lab and center-of-mass (CM) frames for two-body reactions.
@@ -81,24 +84,26 @@ def lab_to_cm(theta_lab_deg, E_lab, m_A, m_a, m_b, m_B, Q):
         CM angle (degrees).
     """
 
-    E_lab = 32 # MeV
-    Q = (m_A + m_a) - (m_b + m_B)  # MeV
-    # gamma 
+    # Q-value of rxn (MeV)
+    Q = (m_A + m_a) - (m_b + m_B)
+    
+    # calculating gamma factor
+    g_numerator = (m_a * m_b * E_lab)/(m_A * m_B)
+    g_denominator = (E_lab + Q  + Q*m_a/m_A)
+    gamma  = np.sqrt(g_numerator / g_denominator)
+
+    theta_lab_rad = np.radians(theta_lab_deg)
+    theta_CM_rad = np.acos(-gamma*np.sin(theta_lab_rad)**2 +np.cos(theta_lab_rad))
+    theta_cm_deg = np.degrees(theta_CM_rad)
+
+    # Jacobian for lab -> cm
+    j_numerator = 1 - (gamma**2 * np.sin(theta_lab_rad)**2)
+    j_denominator = gamma*np.cos(theta_lab_deg) + np.sqrt(1 - (gamma**2 * np.sin(theta_lab_rad)**2))
+    jacobian = (j_numerator / j_denominator)
 
 
-    theta_lab = np.radians(theta_lab_deg)
-
-
-
-
-
-    # tangent relation (standard two-body kinematics)
-    tan_theta_cm = (np.sin(theta_lab) / 
-                   (np.cos(theta_lab) + (p_in / p_out)))
-    theta_cm = np.arctan(tan_theta_cm)
-
-    return np.degrees(theta_cm)
-
+    return Q, theta_cm_deg, jacobian
+  
 
 def BCI_handler(file_path):
     """
@@ -201,7 +206,7 @@ def x_sec_calc(BCI_hits, BCI_scale, volume_list):
     for i in BCI_hits:
         
         Q_beam = (i * 1E-9 * BCI_scale[j])/(sampling_rate)
-        N_beam = Q_beam / beam_charge
+        N_beam = Q_beam / beam_charge_state
 
         dsigma_domega = (volume_list[j] * 1000)/(N_beam * rho_barn * solid_angle)  # cross-sec in mb/sr
         cross_section_vals.append(dsigma_domega)
@@ -211,24 +216,44 @@ def x_sec_calc(BCI_hits, BCI_scale, volume_list):
     return cross_section_vals
 
 
-def error_handler(x_sec, vol_list, vol_err_list, BCI_hits):
+def error_handler(x_sec, volume_list, volume_err_list, BCI_hits, rel_err_BCI=0.10):
     """
-    Returns a list of errors that correspond to the list of cross-sections
-    generated for a given peak.
+    Compute symmetric uncertainties (±1σ) on differential cross sections (mb/sr).
 
+    Parameters
+    ----------
+    x_sec : list or array
+        Calculated cross-section values (mb/sr).
+    volume_list : list or array
+        Integrated peak volumes (arbitrary units).
+    volume_err_list : list or array
+        Uncertainties on integrated peak volumes.
+    BCI_hits : list or array
+        Beam integrator counts (arbitrary units).
+    rel_err_BCI : float
+        Relative error (fractional) on BCI, default 10%.
+        checked with picoampmeter directly into integrator - JCE 10/2025
+
+    Returns
+    -------
+    errs : list
+        List of symmetric ± errors corresponding to each x_sec value.
     """
+
     errs = []
-    n = min(len(x_sec), len(vol_list), len(vol_err_list), len(BCI_hits))  # sync to shortest
-    
-    for i in range(n):
-        err_BCI = 0.20 * BCI_hits[i]   # 20% relative error on BCI
-        if vol_list[i] == 0.0 or BCI_hits[i] == 0.0:
-            deltaX = 0.0
-        else:
-            frac_err = (vol_err_list[i] / vol_list[i])**2 + (err_BCI / BCI_hits[i])**2
-            deltaX = np.sqrt(frac_err) * x_sec[i]
-        errs.append(deltaX)
-    
+    for xs, vol, vol_err, bci in zip(x_sec, volume_list, volume_err_list, BCI_hits):
+        # handle edge cases safely
+        if vol <= 0 or bci <= 0 or xs <= 0:
+            errs.append(0.0)
+            continue
+
+        # relative error propagation in quadrature
+        rel_err_vol = vol_err / vol
+        rel_err_bci = rel_err_BCI  # 10% relative uncertainty on BCI
+        total_rel_err = np.sqrt(rel_err_vol**2 + rel_err_bci**2)
+
+        errs.append(xs * total_rel_err)
+
     return errs
 
 
@@ -274,6 +299,7 @@ def file_writer_combined(blocks, BCI_angle, BCI_counts, BCI_scale, rxn_name, out
     # Save combined CSV
     master_df.to_csv(output_path, index=False)
     print(f"✅ Combined CSV saved: {output_path}")
+
 
 
 def plot_angular_distributions(csv_file, save_path=None):
@@ -323,12 +349,72 @@ def plot_angular_distributions(csv_file, save_path=None):
         plt.show()
 
 
+def plot_angular_distributions_grid(csv_file, save_path=None):
+    """
+    Reads a CSV of angular distributions and plots each excitation state
+    as a subplot with error bars, using full headers (energy + spin/parity).
+    
+    Parameters
+    ----------
+    csv_file : str
+        Path to the CSV file with columns: "Angle (deg)", "3089 keV 1/2+ (dσ/dΩ)", "3089 keV 1/2+ (Δσ)", ...
+    save_path : str, optional
+        If provided, saves the figure to this path.
+    """
+    df = pd.read_csv(csv_file)
+    angles = df["Angle (deg)"]
+
+    # Find all excitation states: look for columns ending with '(dσ/dΩ)'
+    xsec_cols = [col for col in df.columns if col.endswith("(dσ/dΩ)")]
+
+    n_plots = len(xsec_cols)
+    n_cols = min(3, n_plots)  # up to 3 columns per row
+    n_rows = math.ceil(n_plots / n_cols)
+
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(5*n_cols, 4*n_rows), squeeze=False)
+
+    for idx, col in enumerate(xsec_cols):
+        row, col_idx = divmod(idx, n_cols)
+        ax = axes[row][col_idx]
+
+        # corresponding error column
+        err_col = col.replace("(dσ/dΩ)", "(Δσ)")
+
+        ax.errorbar(
+            angles,
+            df[col],
+            yerr=df[err_col],
+            fmt='o',
+            capsize=3
+        )
+
+        ax.set_xlabel("Lab angle (deg)")
+        ax.set_ylabel("dσ/dΩ (mb/sr)")
+        ax.set_yscale("log")
+        # Use the full header as the subplot title (remove the suffix)
+        header = col.replace(" (dσ/dΩ)", "")
+        ax.set_title(header)
+        ax.grid(True)
+
+    # Hide unused axes if the grid has extra slots
+    for idx in range(n_plots, n_rows*n_cols):
+        row, col_idx = divmod(idx, n_cols)
+        axes[row][col_idx].axis('off')
+
+    plt.tight_layout()
+
+    if save_path:
+        plt.savefig(save_path, dpi=300)
+
+    plt.show()
+
+
 
 def main():
     
     rxn_name = "9Be_6Li_d_13C"
     file_path = dir_6Lid + "/input_peaks/6Lid_inputs.ods"
-    
+  
     # --- 1. Parse input peaks ---
     energy_labels, volume_list, vol_err_list = parse_input_peaks(file_path)
 
@@ -360,8 +446,15 @@ def main():
         output_dir=dir_6Lid + "/output_peak_files"
     )
 
-    # --- 6. Plot distributions ---
-    plot_angular_distributions(dir_6Lid + "/output_peak_files/" + rxn_name + "_angular_distributions.csv", rxn_name)
+    #reaction info
+    masses = []
+    for nuc in ["6Li", "9Be", "2H", "13C"]:
+        m = get_nuclear_mass(nuc)
+        masses.append(m)
+        # print(f"{nuc}: {m:.3f} MeV/c^2") #optional print
+
+    Q_val, theta_cm, xsec_jacob = lab_to_cm(BCI_angle, 32, masses[0], masses[1], masses[2], masses[3])
+
 
 # ----------------------------
 if __name__ == "__main__":

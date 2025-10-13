@@ -1,0 +1,15 @@
+{
+  "parquet1": "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/15deg_13.85kG_300s_cut.parquet",
+  "parquet2": "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/12C_dp_newtarget/run_233_cut.parquet",
+  "label1": "9Be(6Li,d)13C",
+  "label2": "12C(d,p)13C",
+  "bins": 600,
+  "energy_range": [
+    -300,
+    300
+  ],
+  "scale1": 1.403,
+  "shift1": -2.269999999999996,
+  "scale2": 0.5225,
+  "shift2": 45.5
+}
