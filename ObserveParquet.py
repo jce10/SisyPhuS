@@ -51,10 +51,10 @@ def observe_parquet(dir, run_start, run_end, output_csv=None, nrows_preview=5):
 
 # Example usage
 if __name__ == "__main__":
-    dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built"
+    dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/12C_dp_newtarget"
     observe_parquet(
         dir=dir,
-        run_start=464,
-        run_end=464,
-        output_csv="ObservedRuns.csv"
+        run_start=233,
+        run_end=233,
+        output_csv="/home/jce18b/Esparza_SPS/2025_06_13C_campaign/ObservedRuns.csv"
     )
