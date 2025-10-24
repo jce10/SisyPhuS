@@ -3,7 +3,7 @@
 
 ## Installation
 ### Clone Repository 
-	git clone https://github.com/jce10/spspy.git
+	git clone https://github.com/jce10/SisyPhuS.git
 	cd spspy
 ### Create and Load Python Virtual Environment and Install Required Python Packages
 	python3 -m venv .venv
