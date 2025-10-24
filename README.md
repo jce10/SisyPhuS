@@ -1,5 +1,16 @@
 # SisyPhuS
-Analysis scripts for SE-SPS data 
+**S**isy**P**hu**S** is a set of scripts for analyzing data for the Super Enge **S**plit-**P**ole **S**pectrograph at FSU. This is not comprehensive so it should be treated more as a scaffolding to full analysis. As I develop more to my personal repo, I'll add the scripts I deem the most useful. 
+
+## Installation
+### Clone Repository 
+	git clone https://github.com/jce10/spspy.git
+	cd spspy
+### Create and Load Python Virtual Environment and Install Required Python Packages
+	python3 -m venv .venv
+	source .venv/bin/activate
+	pip install -r requirements.txt
+Note: `pip` is highly recommended as the package installer. 
+Note x2: You can name your virtual enviornment something other than ".venv" -- edit this to whatever you'd like. To deactivate the environment, use the command `deactivate` in the active terminal. 
 
 # SisyPhuS Workflow
 
