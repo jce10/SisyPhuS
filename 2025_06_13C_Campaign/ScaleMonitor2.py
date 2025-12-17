@@ -81,7 +81,7 @@ if __name__ == "__main__":
         "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/40deg_12.9kG_total.parquet",
     ]
                     #   10     12     15     17     20     25     35     40   
-    # scaling_factors = [1.000, 1.676, 1.419, 3.093, 1.536, 3.036, 3.457, 2.627]  # <--- manually set per run 
-    scaling_factors = [1.000, 1.676, 1.419, 3.093, 4.607, 3.036, 10.37, 7.882]  # <--- manually set per run this one works
+    scaling_factors = [1.000, 1.676, 1.419, 3.093, 1.536, 3.036, 3.457, 2.627]  # <--- manually set per run 
+    # scaling_factors = [1.000, 1.676, 1.419, 3.093, 4.607, 3.036, 10.37, 7.882]  # <--- manually set per run this one works
 
     scale_and_plot_subplots(parquet_files, scaling_factors)

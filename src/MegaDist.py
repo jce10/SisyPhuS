@@ -10,11 +10,22 @@ import pandas as pd
 import textwrap
 
 
-dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign"
-dir_6Lid = dir + "/6Lid"
-dir_dp = dir + "/dp"
-fresco_dir = dir_6Lid + "/9Be6Lid_fresco"
+"""
 
+MegaDist.py
+----------------
+A module to generate comprehensive angular distribution plots
+combining calculated data, old experimental data, and FRESCO theoretical curves.
+
+The two functions that are tested are load_all_fresco and mega_plotter. 
+
+The user only needs to modify the paths in the main() function to point to their
+calculated CSV, old experimental ODS file, and FRESCO directory.
+
+J.C. Esparza
+Oct. 2025
+
+"""
 
 def load_all_fresco(fresco_dir, theta_max=70):
     fresco_data = {}
@@ -166,20 +177,27 @@ def mega_plotter(calc_csv, old_data_ods, fresco_data=None, save_path=None):
         plt.show()
 
 
+
+# ======= Main ======= #
 def main():
 
+    # User-defined paths - CHANGE THESE AS NEEDED
+    dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign"
+    dir_6Lid = dir + "/6Lid"
+    dir_dp = dir + "/dp"
+    fresco_dir = dir_6Lid + "/9Be6Lid_fresco"
     rxn_name = "9Be_6Li_d_13C"
-    file_path = dir_6Lid + "/input_peaks/6Lid_inputs.ods"
-
+    rxn_name2 = "12C_dp_13C"
+    
     calc_csv = dir_6Lid + "/output_peak_files/" + rxn_name + "_angular_distributions.csv"
     old_data_ods = dir_6Lid + "/output_peak_files/aslan_data.ods"
 
-    # # Load FRESCO data once
+    # Load FRESCO data once
     fresco_data = load_all_fresco(fresco_dir, theta_max=70)
     
     # Generate mega plot
     mega_plotter(calc_csv, old_data_ods, fresco_data=fresco_data)
-    # mega_plotter(calc_csv, old_data_ods=old_data_ods, fresco_data=None)
+    # mega_plotter(calc_csv, old_data_ods=old_data_ods, fresco_data=None) # if no FRESCO data is available/desired
 
 
 # ----------------------------

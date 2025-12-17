@@ -1,8 +1,9 @@
 import os
-import pandas as pd
+# import pandas as pd
+import polars as pl
 import matplotlib.pyplot as plt
 import numpy as np
-import imageio.v2 as imageio  # for writing GIFs
+# import imageio.v2 as imageio  # for writing GIFs
 import tempfile
 
 def monitor_energies(dir, run_start, run_end, bins=512, energy_range=(0, 4096),
@@ -31,7 +32,7 @@ def monitor_energies(dir, run_start, run_end, bins=512, energy_range=(0, 4096),
                 print(f"⚠️ File not found: {file}, skipping.")
                 continue
 
-            df = pd.read_parquet(path)
+            df = pl.read_parquet(path)
             if "MonitorEnergy" not in df.columns:
                 print(f"⚠️ No 'MonitorEnergy' column in {file}, skipping.")
                 continue
@@ -61,7 +62,7 @@ def monitor_energies(dir, run_start, run_end, bins=512, energy_range=(0, 4096),
             plt.title(f"MonitorEnergy spectra (up to run {run})")
             plt.grid(True, alpha=0.3)
             plt.savefig(frame_path)
-            images.append(imageio.imread(frame_path))
+            # images.append(imageio.imread(frame_path))
 
         plt.show()
 
@@ -72,8 +73,8 @@ def monitor_energies(dir, run_start, run_end, bins=512, energy_range=(0, 4096),
 
     # # Save CSV if requested
     # if output_csv and max_bin_list:
-    #     df_max = pd.DataFrame(max_bin_list)
-    #     df_max.to_csv(output_csv, index=False)
+    #     df_max = pl.DataFrame(max_bin_list)
+    #     df_max.write_csv(output_csv)
     #     print(f"✅ Saved max-bin values to {output_csv}")
 
 

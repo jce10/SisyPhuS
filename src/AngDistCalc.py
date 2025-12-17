@@ -7,14 +7,24 @@ import time
 import matplotlib.pyplot as plt
 import math
 import pandas as pd
+import polars as pl
 import textwrap
 from MassLookup import get_nuclear_mass
 
-dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign"
-dir_6Lid = dir + "/6Lid"
-dir_dp = dir + "/dp"
+"""
+AngDistCalc.py
+---------------
 
+A module for calculating angular distributions in nuclear reactions.
 
+User provided inputs include: 
+
+User inputs peak volume and uncertainty data from an ODS spreadsheet,
+and beam integrator (BCI) data from a text file. 
+
+"""
+
+# ======= Reaction and Target Info ======= #
 #region
 # Physical Constants #
 
@@ -110,6 +120,7 @@ def BCI_handler(file_path):
     Reads a BCI_totals.txt file with columns:
     angle | total | scale
     Returns three lists: angles, counts, scales
+    
     """
     BCI_angles = []
     BCI_counts = []
@@ -140,21 +151,6 @@ def BCI_handler(file_path):
         BCI_scales.append(scale)
 
     return BCI_angles, BCI_counts, BCI_scales
-
-
-    # # 12C(d,p)13C
-    # BCI_angles_dp = []
-    # BCI_hits_dp = []
-    # BCI_scale_dp = []
-
-    # with open(dir_dp + "/BCI_totals.txt") as f:
-    #     stripped = [s.strip() for s in f]
-    #     for line in stripped:
-    #         angle, hits, scale = line.split()
-    #         BCI_angles_dp.append(angle)              # store angle label
-    #         BCI_hits_dp.append(float(hits))          # store counts
-    #         BCI_scale_dp.append(float(scale))        # store scale
-    # return BCI_angles_dp, BCI_hits_dp, BCI_scale_dp
 
 
 def parse_input_peaks(file_path):
@@ -302,119 +298,24 @@ def file_writer_combined(blocks, BCI_angle, BCI_counts, BCI_scale, rxn_name, out
 
 
 
-def plot_angular_distributions(csv_file, save_path=None):
-    """
-    Reads a CSV of angular distributions and plots each excitation state
-    as a subplot with error bars.
-    
-    Parameters
-    ----------
-    csv_file : str
-        Path to the CSV file with columns: "Angle (deg)", "E1 (dσ/dΩ)", "E1 (Δσ)", ...
-    save_path : str, optional
-        If provided, saves the figure to this path.
-    """
-    df = pd.read_csv(csv_file)
+# ======= USER EDITS HERE ======= #
 
-    # Extract angles
-    angles = df.iloc[:, 0].values
-
-    # Extract all excitation states (columns are in pairs: cross section & error)
-    state_cols = [col for col in df.columns if "(dσ/dΩ)" in col]
-    err_cols   = [col for col in df.columns if "(Δσ)" in col]
-
-    # Group states in sets of 3 for 1x3 subplots
-    n_states = len(state_cols)
-    n_groups = math.ceil(n_states / 3)
-
-    for g in range(n_groups):
-        start = g * 3
-        end = min(start + 3, n_states)
-        cols_group = state_cols[start:end]
-        errs_group = err_cols[start:end]
-
-        fig, axs = plt.subplots(1, len(cols_group), figsize=(5*len(cols_group), 4), sharey=True)
-        if len(cols_group) == 1:
-            axs = [axs]  # Ensure axs is always iterable
-
-        for ax, col, err_col in zip(axs, cols_group, errs_group):
-            ax.errorbar(angles, df[col], yerr=df[err_col], fmt='o', capsize=3)
-            ax.set_xlabel("Lab Angle (deg)")
-            ax.set_ylabel(r"$d\sigma/d\Omega$ (mb/sr)")
-            ax.set_yscale("log")
-            ax.set_title(col, fontsize=10)
-            ax.grid(True)
-
-        plt.tight_layout()
-        plt.show()
-
-
-def plot_angular_distributions_grid(csv_file, save_path=None):
-    """
-    Reads a CSV of angular distributions and plots each excitation state
-    as a subplot with error bars, using full headers (energy + spin/parity).
-    
-    Parameters
-    ----------
-    csv_file : str
-        Path to the CSV file with columns: "Angle (deg)", "3089 keV 1/2+ (dσ/dΩ)", "3089 keV 1/2+ (Δσ)", ...
-    save_path : str, optional
-        If provided, saves the figure to this path.
-    """
-    df = pd.read_csv(csv_file)
-    angles = df["Angle (deg)"]
-
-    # Find all excitation states: look for columns ending with '(dσ/dΩ)'
-    xsec_cols = [col for col in df.columns if col.endswith("(dσ/dΩ)")]
-
-    n_plots = len(xsec_cols)
-    n_cols = min(3, n_plots)  # up to 3 columns per row
-    n_rows = math.ceil(n_plots / n_cols)
-
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(5*n_cols, 4*n_rows), squeeze=False)
-
-    for idx, col in enumerate(xsec_cols):
-        row, col_idx = divmod(idx, n_cols)
-        ax = axes[row][col_idx]
-
-        # corresponding error column
-        err_col = col.replace("(dσ/dΩ)", "(Δσ)")
-
-        ax.errorbar(
-            angles,
-            df[col],
-            yerr=df[err_col],
-            fmt='o',
-            capsize=3
-        )
-
-        ax.set_xlabel("Lab angle (deg)")
-        ax.set_ylabel("dσ/dΩ (mb/sr)")
-        ax.set_yscale("log")
-        # Use the full header as the subplot title (remove the suffix)
-        header = col.replace(" (dσ/dΩ)", "")
-        ax.set_title(header)
-        ax.grid(True)
-
-    # Hide unused axes if the grid has extra slots
-    for idx in range(n_plots, n_rows*n_cols):
-        row, col_idx = divmod(idx, n_cols)
-        axes[row][col_idx].axis('off')
-
-    plt.tight_layout()
-
-    if save_path:
-        plt.savefig(save_path, dpi=300)
-
-    plt.show()
-
-
-
+# ======= Main ======= #
 def main():
     
+    # root directory
+    dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign"
+
+    # jce differect rxn dirs
+    dir_6Lid = dir + "/6Lid"
+    dir_dp = dir + "/dp"
+    
+    # ESSENTIAL TO RUNNING
     rxn_name = "9Be_6Li_d_13C"
     file_path = dir_6Lid + "/input_peaks/6Lid_inputs.ods"
-  
+    
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~ begin workflow ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
     # --- 1. Parse input peaks ---
     energy_labels, volume_list, vol_err_list = parse_input_peaks(file_path)
 

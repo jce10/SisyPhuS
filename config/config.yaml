@@ -1,0 +1,47 @@
+# ============================================================ #
+#   CONFIG FILE FOR Esparza_SPS Cross Section Pipeline         #
+# ============================================================ #
+
+# ----- Paths -----
+directories:
+  root_dir: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign"
+  peak_file: "input_peaks/6Lid_inputs.ods"
+  bci_file: "BCI_totals.txt"
+  output_subdir: "output_peak_files"
+
+# ----- Reaction Info -----
+reactions:
+  9Be6Lid13C:
+    name: "9Be6Lid"
+    nuclei: ["6Li", "9Be", "2H", "13C"]
+    beam_energy_MeV: 32
+    subdir: "6Lid"
+
+  12Cdp13C:
+    name: "12Cdp"
+    nuclei: ["12C", "2H", "H", "13C"]
+    beam_energy_MeV: 16
+    subdir: "dp"
+
+# ----- Selected Reaction -----
+selected_reaction: "9Be6Lid13C"
+# selected_reaction: "12Cdp13C"  
+
+# ----- Target Info -----
+target:
+  thickness_g_cm2: 9.25e-5
+  molar_mass_g_mol: 9.012182
+
+# ----- Detector / Beam Info -----
+detector:
+  solid_angle_sr: 0.00461641607338361
+
+beam:
+  proton_number_Z: 3
+  sampling_rate_Hz: 100
+
+# ----- Constants (override only if needed) -----
+constants:
+  avogadro: 6.02214076e23
+  barn_to_cm2: 1e-24
+  U_TO_MEV: 931.49410242
