@@ -82,7 +82,7 @@ def mega_plotter(calc_csv, old_data_ods, fresco_data=None, save_path=None):
         Path to the calculated CSV output (with cross sections and errors)
     old_data_ods : str
         Path to the old ODS experimental data file
-    fresco_dir : str
+    fresco_dir : strl
         Directory containing FRESCO fort.16 files for each energy state
     save_path : str, optional
         If provided, saves the figure to this path instead of showing it
@@ -116,10 +116,10 @@ def mega_plotter(calc_csv, old_data_ods, fresco_data=None, save_path=None):
             aslan_headers.append(header)
             aslan_blocks.append((theta, xsec))
 
+
     # --- 3. Load FRESCO fort.16 files ---
     # if fresco_data is None and os.path.isdir(fresco_dir):
     #     fresco_data = load_all_fresco(fresco_dir, theta_max=70)
-
 
 
     # --- 4. Determine subplot grid size ---
@@ -158,7 +158,7 @@ def mega_plotter(calc_csv, old_data_ods, fresco_data=None, save_path=None):
                     ax.plot(theta, xsec, '--', color='tab:green', label=f'FRESCO {fkey}')
 
         ax.set_yscale('log')
-        ax.set_xlabel("θ_lab (deg)")
+        ax.set_xlabel("$θ_{lab}$ (deg)")
         ax.set_ylabel("dσ/dΩ (mb/sr)")
         ax.set_title("\n".join(textwrap.wrap(label, width=25)))
         ax.legend(fontsize=9)

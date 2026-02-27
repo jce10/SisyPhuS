@@ -51,6 +51,7 @@ def scale_and_plot_multiple(parquet_files, scaling_factors, bins=256, energy_ran
     plt.xlabel("Monitor Energy (arb. units)")
     plt.ylabel("Counts (scaled)")
     plt.title("Scaled Monitor Spectra for All Runs")
+    # plt.title("Unscaled Monitor Spectra for All Runs")
     plt.legend()
     plt.grid(True, linestyle="--", alpha=0.5)
     plt.tight_layout()
@@ -60,16 +61,18 @@ def scale_and_plot_multiple(parquet_files, scaling_factors, bins=256, energy_ran
 if __name__ == "__main__":
     # <--- manually specify parquet files and their scaling factors
     parquet_files = [
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/10deg_14kG_total.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/12deg_14kG_total.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/15deg_13.85kG_total.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/17deg_13.85kG_runs_369_375.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/20deg_13.7kG_runs_355_364.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/25deg_13.6kG_total.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/35deg_13.25kG_total.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/40deg_12.9kG_total.parquet"
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/10deg_14kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/12deg_14kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/15deg_13.85kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/17deg_13.85kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/20deg_13.7kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/25deg_13.6kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/35deg_13.25kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/40deg_12.9kG_total.parquet"
     ]
-    scaling_factors = [1.000, 1.676, 1.286, 3.093, 1.471, 3.036, 3.458, 2.581]  # <--- manually set per run
+    # scaling_factors = [1.000, 1.676, 1.286, 3.093, 1.471, 3.036, 3.458, 2.581]  # <--- manually set per run
+    # scaling_factors = [1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000]  # <--- manually set per run
+    scaling_factors = [1.000, 1.676, 1.419, 3.093, 4.607, 3.036, 10.37, 7.882]  # <--- manually set per run this one works
 
     scale_and_plot_multiple(parquet_files, scaling_factors)
 

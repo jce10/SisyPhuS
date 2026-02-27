@@ -88,7 +88,7 @@ def monitor_energies_scaled(dir,
 
 
 summary_df = monitor_energies_scaled(
-    dir="/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built",
+    dir="/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB",
     run_start=408,
     run_end=413,
     integrator_csv="BCI_counts.csv",

@@ -43,7 +43,7 @@ def monitor_energies(dir, run_start, run_end, bins=512, energy_range=(0, 4096),
             max_bin_center = (edges[max_bin_index] + edges[max_bin_index+1]) / 2
             max_count = counts[max_bin_index]
 
-            print(f"{run:<6} | {max_bin_center:>10.2f} | {max_count:>8}")
+            # print(f"{run:<6} | {max_bin_center:>10.2f} | {max_count:>8}") # print process to terminal
             max_bin_list.append({'Run': run, 'MaxBinCenter': max_bin_center, 'MaxCount': max_count})
 
             # Plot histogram + vertical line
@@ -71,20 +71,20 @@ def monitor_energies(dir, run_start, run_end, bins=512, energy_range=(0, 4096),
         #     imageio.mimsave(output_gif, images, duration=0.8)  # 0.8s per frame
         #     print(f"✅ Saved GIF animation to {output_gif}")
 
-    # # Save CSV if requested
-    # if output_csv and max_bin_list:
-    #     df_max = pl.DataFrame(max_bin_list)
-    #     df_max.write_csv(output_csv)
-    #     print(f"✅ Saved max-bin values to {output_csv}")
+    # Save CSV if requested
+    if output_csv and max_bin_list:
+        df_max = pl.DataFrame(max_bin_list)
+        df_max.write_csv(output_csv)
+        print(f"✅ Saved max-bin values to {output_csv}")
 
 
 # Example usage
 if __name__ == "__main__":
     monitor_energies(
-        dir="/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built",
+        dir="/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB",
         run_start=290,
         run_end=465,
-        # output_csv="MonitorEnergy_MaxBins.csv",
+        output_csv="MonitorEnergy_MaxBins.csv",
         # output_gif="MonitorEnergy_Buildup.gif"
     )
 

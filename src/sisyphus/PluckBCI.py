@@ -105,7 +105,7 @@ if __name__ == "__main__":
 
 
     run_groups = {
-        # "7_14.2": [(317, 319),(394, 398), (427, 440), (465, 465)],
+        # "7": [(317, 319),(394, 398), (427, 440), (465, 465)],
         "10": [(314, 315),(378, 382),(385,389), (426,426),(441, 447)],
         "12": [(341, 346),(351, 352), (458, 464)],
         "15": [(320, 329), (340, 340), (450, 457)],
@@ -142,8 +142,10 @@ if __name__ == "__main__":
     #     "60 deg": [(300, 305), (310, 315)],
     # }
 
-    PluckBCI(scaler_dir, run_groups, output_dir=output_dir, output_csv="BCI_counts_6Lid_HL.csv")
+    # PluckBCI(scaler_dir, run_groups, output_dir=output_dir, output_csv="BCI_counts_6Lid_HL.csv")
     # PluckBCI(scaler_dir, run_groups, output_dir=output_dir, output_csv="BCI_counts_6Lid_LL.csv")
+
+    PluckBCI(scaler_dir, run_groups, output_dir=output_dir, output_csv="BCI_totals.txt")
 
     # PluckBCI(scaler_dir, run_groups, output_dir=output_dir, output_csv="BCI_counts_dp_HL.csv")
     
