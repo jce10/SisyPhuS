@@ -64,6 +64,14 @@ def scale_and_plot_subplots(parquet_files, scaling_factors, bins=512, energy_ran
     axes[1].grid(True, linestyle="--", alpha=0.5)
     axes[1].legend(fontsize=8)
 
+
+    plt.figure(figsize=(10,7))
+    # Build histogram
+    counts, bin_edges = np.histogram(df["MonitorEnergy"], bins=bins, range=energy_range)
+    scaled_counts = counts
+    bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
+
+
     plt.tight_layout()
     plt.show()
 
@@ -71,17 +79,17 @@ def scale_and_plot_subplots(parquet_files, scaling_factors, bins=512, energy_ran
 if __name__ == "__main__":
     # <--- manually specify parquet files and their scaling factors
     parquet_files = [
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/10deg_14kG_total.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/12deg_14kG_total.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/15deg_13.85kG_total.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/17deg_13.85kG_total.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/20deg_13.7kG_total.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/25deg_13.6kG_total.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/35deg_13.25kG_total.parquet",
-        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/40deg_12.9kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/10deg_14kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/12deg_14kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/15deg_13.85kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/17deg_13.85kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/20deg_13.7kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/25deg_13.6kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/35deg_13.25kG_total.parquet",
+        "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be_6Lid_new_EVB/40deg_12.9kG_total.parquet",
     ]
                     #   10     12     15     17     20     25     35     40   
     scaling_factors = [1.000, 1.676, 1.419, 3.093, 1.536, 3.036, 3.457, 2.627]  # <--- manually set per run 
-    # scaling_factors = [1.000, 1.676, 1.419, 3.093, 4.607, 3.036, 10.37, 7.882]  # <--- manually set per run this one works
+    # scaling_factors = [1.000, 1.676, 1.419, 3.093, 4.607, 3.036, 10.37, 7.882]  # <--- randome factor 3
 
     scale_and_plot_subplots(parquet_files, scaling_factors)

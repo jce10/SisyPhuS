@@ -1,0 +1,34 @@
+# ============================================================ #
+#                        SisyPhuS Config                       #
+# ============================================================ #
+
+# ----- Paths -----
+directories:
+  peak_file: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/input_peaks/6Lid_inputs.ods"
+  bci_file: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/BCI_outputs/BCI_totals.txt"
+  output_subdir: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/output_peak_files"
+
+# ----- Reaction Info -----
+reactions:
+  name: "9Be6Lid"
+  nuclei: ["6Li", "9Be", "2H", "13C"]
+  beam_energy_MeV: 32
+
+# ----- Target Info -----
+target:
+  thickness_g_cm2: 9.25e-5
+  molar_mass_g_mol: 9.012182
+
+# ----- Detector / Beam Info -----
+detector:
+  solid_angle_sr: 0.00461641607338361 # sr
+
+beam:
+  proton_number_Z: 3
+  sampling_rate_Hz: 100
+
+# ----- Constants (override only if needed) -----
+constants:
+  avogadro: 6.02214076e23
+  barn_to_cm2: 1e-24
+  U_TO_MEV: 931.49410242

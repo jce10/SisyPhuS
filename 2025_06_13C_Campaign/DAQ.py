@@ -94,6 +94,8 @@ def collect_channel_telemetry(
             row[f"throughput_ch{ch}"] = throughput_val
             row[f"rejections_ch{ch}"] = rej_sum if found_rej else None
             row[f"live_frac_ch{ch}"] = (float(ocr_val) / float(icr_val)) if (icr_val and ocr_val is not None and icr_val != 0) else None
+            row[f"thru/icr_ch{ch}"] = (float(throughput_val) / float(icr_val)) if (icr_val and throughput_val is not None and icr_val != 0) else None
+            # row[f"thru/icr_ch{ch}"] = (float(throughput_val) / float(icr_val)) if (icr_val and throughput_val is not None and icr_val != 0) else None
 
         rows.append(row)
 
@@ -150,11 +152,18 @@ def plot_channel_telemetry_full(df, channels=(3,5)):
     axs[4].grid(True)
     axs[4].legend()
 
-    axs[5].set_visible(False)  # Empty subplot
+    for ch in channels:
+        axs[5].plot(df[f'icr_ch{ch}'], df[f'ocr_ch{ch}'], marker='o', linestyle='-', label=f'CH {ch}')
+    axs[5].set_ylabel("OCR")
+    axs[5].set_xlabel("ICR")
+    axs[5].set_title("OCR vs ICR")
+    axs[5].grid(True)
+    axs[5].legend() 
+
+    # axs[5].set_visible(False)  # Empty subplot
 
     plt.tight_layout()
     plt.show()
-
 
 
 

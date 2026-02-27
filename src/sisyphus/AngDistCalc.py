@@ -312,7 +312,7 @@ def main():
     
     # ESSENTIAL TO RUNNING
     rxn_name = "9Be_6Li_d_13C"
-    file_path = dir_6Lid + "/input_peaks/6Lid_inputs.ods"
+    file_path = dir_6Lid + "/input_peaks/6Lid_inputs_shapira.ods"
     
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~ begin workflow ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
