@@ -14,7 +14,7 @@ def parse_input_peaks_ods(file_path: str | Path) -> pl.DataFrame:
 
     Row 0 contains headers:
         [energy_label, spin_parity] per pair
-    Row 1 is ignored (matches your original behavior)
+    Row 1 is ignored 
     Data starts at row 2.
 
     Returns

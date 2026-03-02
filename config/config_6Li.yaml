@@ -4,7 +4,9 @@
 
 # ----- Paths -----
 directories:
-  peak_file: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/input_peaks/6Lid_inputs.ods"
+  peak_file: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/input_peaks/6Lid_inputs_shapira.ods"
+  fresco_dir: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/9Be6Lid_fresco"
+  aslan_dir: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/output_peak_files/aslan_data.ods"
   bci_file: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/BCI_outputs/BCI_totals.txt"
   output_subdir: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/output_peak_files"
 

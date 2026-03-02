@@ -22,6 +22,8 @@ User provided inputs include:
 User inputs peak volume and uncertainty data from an ODS spreadsheet,
 and beam integrator (BCI) data from a text file. 
 
+OG calculator. "retired" 02/2026
+
 """
 
 # ======= Reaction and Target Info ======= #

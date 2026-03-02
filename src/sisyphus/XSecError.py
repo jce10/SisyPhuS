@@ -1,3 +1,13 @@
+"""
+Adds symmetric ±1σ uncertainty column for differential cross sections.
+
+Uses quadrature on relative errors:
+    (σ_xs / xs)^2 = (σ_vol/vol)^2 + (rel_err_bci)^2
+
+Produces:
+    xsec_err_mb_sr
+"""
+
 import polars as pl
 import numpy as np  # only needed if you want np.sqrt, but we'll use polars' sqrt below
 
@@ -6,20 +16,11 @@ def add_xsec_uncertainty(
     df: pl.DataFrame,
     *,
     rel_err_bci: float = 0.10,
-    xsec_col: str = "xsec_mb_sr",
+    xsec_col: str = "xsec",
     vol_col: str = "volume",
     vol_err_col: str = "uncertainty",
     bci_counts_col: str = "counts",
 ) -> pl.DataFrame:
-    """
-    Adds symmetric ±1σ uncertainty column for differential cross sections.
-
-    Uses quadrature on relative errors:
-        (σ_xs / xs)^2 = (σ_vol/vol)^2 + (rel_err_bci)^2
-
-    Produces:
-        xsec_err_mb_sr
-    """
 
     # Safety mask: if vol<=0 or counts<=0 or xsec<=0 -> error = 0
     safe = (
@@ -36,5 +37,5 @@ def add_xsec_uncertainty(
         pl.when(safe)
         .then(pl.col(xsec_col) * total_rel)
         .otherwise(pl.lit(0.0))
-        .alias("xsec_err_mb_sr")
+        .alias("xsec_err")
     )

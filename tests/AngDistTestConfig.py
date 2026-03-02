@@ -1,3 +1,10 @@
+"""
+
+testing grounds for ang dist calculator using a config file.
+
+"""
+
+
 from __future__ import annotations
 
 import polars as pl
@@ -14,12 +21,12 @@ def main():
     # 1) Load config
     cfg = load_config("config/config_6Li.yaml")
 
-    # 2) Load peaks (ODS) -> tidy DF: state,index,volume,uncertainty
-    peaks_df = parse_input_peaks_ods(cfg.paths.peak_file)
-
-    # 3) Load BCI -> DF: angle,counts,scale
+    # 2) Load BCI -> DF: angle,counts,scale
     bci_df = load_bci(cfg.paths.bci_file).with_row_index("index")
 
+    # 3) Load peaks (ODS) -> tidy DF: state,index,volume,uncertainty
+    peaks_df = parse_input_peaks_ods(cfg.paths.peak_file)
+ 
     # 4) Join by row index (angle order)
     combined = peaks_df.join(bci_df, on="index", how="left")
 
@@ -39,7 +46,6 @@ def main():
         rho_barn=rho_barn,
         solid_angle_sr=cfg.solid_angle_sr,
     )
-
     combined = add_xsec_uncertainty(
         combined,
         rel_err_bci=0.10,  # measured beam integrator systematic

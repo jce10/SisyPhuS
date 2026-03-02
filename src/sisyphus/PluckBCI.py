@@ -97,7 +97,7 @@ def PluckBCI(scaler_dir, run_groups, output_dir=None, output_csv="BCI_counts.csv
 if __name__ == "__main__":
     # 9Be(6Li,d)13C scalers
     scaler_dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/scalers/9Be_6Lid_scalers"
-    output_dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid"
+    output_dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/BCI_outputs"
 
     # 12C(d,p)13C scalers
     # scaler_dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/scalers/12C_dp_scalers"

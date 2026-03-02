@@ -13,6 +13,8 @@ DEFAULT_CONSTANTS = {
 class Paths:
     peak_file: Path
     bci_file: Path
+    fresco_dir: Path
+    aslan_dir: Path
     output_subdir: Path
 
 @dataclass(frozen=True)
@@ -43,6 +45,8 @@ def load_config(config_path: str | Path) -> PipelineConfig:
     d = raw["directories"]
     peak_file = Path(d["peak_file"]).expanduser().resolve()
     bci_file = Path(d["bci_file"]).expanduser().resolve()
+    fresco_dir = Path(d["fresco_dir"]).expanduser().resolve()
+    aslan_dir = Path(d["aslan_dir"]).expanduser().resolve()
     output_subdir = Path(d["output_subdir"]).expanduser().resolve()
 
     # create output dir if needed
@@ -65,6 +69,8 @@ def load_config(config_path: str | Path) -> PipelineConfig:
             peak_file=peak_file,
             bci_file=bci_file,
             output_subdir=output_subdir,
+            fresco_dir=fresco_dir,
+            aslan_dir=aslan_dir,
         ),
         reaction=reaction,
         target_thickness_g_cm2=float(raw["target"]["thickness_g_cm2"]),

@@ -35,3 +35,27 @@ Note x2: You can name your virtual enviornment something other than ".venv" -- e
     • Accepts fresco_data as an argument so you can skip reloading files if you’ve already parsed them.
     • Uses a dynamic subplot grid so the figure scales automatically with your number of states.
     • Includes proper error bars, log-scaling, and clean legends.
+
+# match by energy
+python scripts/AngDistPlotSingle.py --match 10753
+
+# match by spin
+python scripts/AngDistPlotSingle.py --match "7/2-"
+
+# exact label
+python scripts/AngDistPlotSingle.py --state "10753 keV 7/2-"
+
+# by index (0-based)
+python scripts/AngDistPlotSingle.py --index 0
+
+# save output
+python scripts/AngDistPlotSingle.py --match 10753 --save /path/to/10753.png
+
+# list all states with indices
+python scripts/AngDistPlotSingle.py --list
+
+# list with a theta cut (if you want)
+python scripts/AngDistPlotSingle.py --list --theta-max 50
+
+# then plot by index
+python scripts/AngDistPlotSingle.py --index 3
