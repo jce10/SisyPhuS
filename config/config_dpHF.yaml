@@ -1,0 +1,36 @@
+# ============================================================ #
+#                        SisyPhuS Config                       #
+# ============================================================ #
+
+# ----- Paths -----
+directories:
+  peak_file:     "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/input_peaks/12Cdp_inputpeaksHF.ods"
+  fresco_dir:    "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/12Cdp_fresco"
+  aslan_dir:     "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/output_peak_files/ohnuma_data.ods"
+  bci_file:      "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/BCI_outputs/BCI_totals_HF.txt"
+  output_subdir: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/output_peak_files/HighField"
+
+# ----- Reaction Info -----
+reactions:
+  name: "12Cdp"
+  nuclei: ["12C", "2H", "H", "13C"]
+  beam_energy_MeV: 16
+
+# ----- Target Info -----
+target:
+  thickness_g_cm2: 5.0e-5
+  molar_mass_g_mol: 12.0
+
+# ----- Detector / Beam Info -----
+detector:
+  solid_angle_sr: 0.00461641607338361 # sr
+
+beam:
+  proton_number_Z: 1
+  sampling_rate_Hz: 100
+
+# ----- Constants (override only if needed) -----
+constants:
+  avogadro: 6.02214076e23
+  barn_to_cm2: 1e-24
+  U_TO_MEV: 931.49410242

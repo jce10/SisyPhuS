@@ -192,7 +192,8 @@ def mega_plotter_long(
 
         for hdr, (t_old, x_old) in zip(aslan_headers, aslan_blocks):
             if aslan_matches_state(hdr, str(state)):
-                ax.plot(t_old, x_old, "o", mfc="none", color ="red", label="Aslanoglou et al.")
+                # ax.plot(t_old, x_old, "o", mfc="none", color ="red", label="Aslanoglou et al.") # change name of previous work
+                ax.plot(t_old, x_old, "o", mfc="none", color ="red", label="Ohnuma et al.")
 
         if fdf is not None:
             for fstate in fresco_states:
@@ -341,10 +342,11 @@ def plot_single_long(
     fig, ax = plt.subplots(figsize=(7, 5))
     ax.errorbar(theta, xsec, yerr=yerr, fmt="o", label="This Work")
 
-    # Aslan overlay
+    # past data overlay
     for hdr, (t_old, x_old) in zip(aslan_headers, aslan_blocks):
         if aslan_matches_state(hdr, resolved):
-            ax.plot(t_old, x_old, "o", color="red", label="Aslanoglou et al.")
+            # ax.plot(t_old, x_old, "o", color="red", label="Aslanoglou et al.") # change name of previous work
+            ax.plot(t_old, x_old, "o", color="red", label="Ohnuma et al.")
 
     # FRESCO overlay
     if fdf is not None:

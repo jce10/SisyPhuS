@@ -48,7 +48,9 @@ def list_states(calc_csv: str | Path, theta_max: float | None = None) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Plot a single angular distribution from long-format CSV.")
-    parser.add_argument("--config", default="config/config_6Li.yaml")
+    # parser.add_argument("--config", default="config/config_6Li.yaml")
+    # parser.add_argument("--config", default="config/config_dpHF.yaml")
+    parser.add_argument("--config", default="config/config_dpLF.yaml")
     parser.add_argument("--list", action="store_true", help="List available states (with indices) and exit.")
     parser.add_argument("--state", default=None, help="Exact (or substring) state label, e.g. '10753 keV 7/2-'")
     parser.add_argument("--match", default=None, help="Substring match, e.g. '10753' or '7/2-'")
