@@ -4,7 +4,7 @@ from pathlib import Path
 import polars as pl
 
 from sisyphus.config import load_config
-from sisyphus.LoadFRESCO import load_all_fresco_long
+from sisyphus.LoadFRESCO import load_all_fresco_long, load_fresco_data_fort200, load_all_fresco_fort200_long
 from sisyphus.MegaDistLong import mega_plotter_long
 
 
@@ -30,18 +30,26 @@ def main() -> None:
     # cfg = load_config("config/config_6Li.yaml")
 
     # (d,p) configs
-    cfg = load_config("config/config_dpLF.yaml")
-    # cfg = load_config("config/config_dpHF.yaml")
+    # cfg = load_config("config/config_dpLF.yaml")
+    cfg = load_config("config/config_dpHF.yaml")
 
     # 2) Locate calculated CSV
     calc_csv = find_calc_csv(cfg.paths.output_subdir)
 
     # 3) Load FRESCO tidy dataframe
-    fresco_df = load_all_fresco_long(
+    # fresco_df = load_all_fresco_long(
+    #     cfg.paths.fresco_dir,
+    #     theta_max=70.0,
+    # )
+    # print("fresco directory: ",cfg.paths.fresco_dir)
+
+    fresco_df = load_all_fresco_fort200_long(
         cfg.paths.fresco_dir,
         theta_max=70.0,
     )
 
+    # print(fresco_df)
+    # print(f"FRESCO rows: {fresco_df.height}")
     # 4) Plot
     mega_plotter_long(
         calc_csv,

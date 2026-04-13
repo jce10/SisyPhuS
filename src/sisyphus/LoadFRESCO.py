@@ -124,3 +124,121 @@ def load_all_fresco_dict(
         out[str(state)] = df.filter(pl.col("state") == state).select(["theta_deg", "xsec"]).sort("theta_deg")
 
     return out
+
+
+
+def load_fresco_data_fort200(
+    filepath: str | Path,
+    *,
+    theta_max: float | None = None,
+    state: str | None = None,
+) -> pl.DataFrame:
+    """
+    Load a single FRESCO fort.20x-style file (already split section).
+    """
+    filepath = Path(filepath)
+
+    if not filepath.exists():
+        raise FileNotFoundError(f"File not found: {filepath}")
+    if not filepath.is_file():
+        raise IsADirectoryError(f"Expected a file, got directory: {filepath}")
+
+    theta_vals: list[float] = []
+    xsec_vals: list[float] = []
+
+    lines = filepath.read_text().splitlines()
+
+    for line in lines:
+        s = line.strip()
+
+        if not s or s.startswith("#") or s.startswith("END"):
+            continue
+
+        parts = s.split()
+        if len(parts) < 2:
+            continue
+
+        try:
+            theta = float(parts[0])
+            xsec = float(parts[1])
+        except ValueError:
+            continue
+
+        if theta_max is None or theta <= theta_max:
+            theta_vals.append(theta)
+            xsec_vals.append(xsec)
+
+    if not theta_vals:
+        base = {
+            "theta_deg": [],
+            "xsec": [],
+        }
+        if state is not None:
+            base["state"] = []
+            return pl.DataFrame(
+                base,
+                schema={"theta_deg": pl.Float64, "xsec": pl.Float64, "state": pl.Utf8},
+            )
+        return pl.DataFrame(
+            base,
+            schema={"theta_deg": pl.Float64, "xsec": pl.Float64},
+        )
+
+    df = pl.DataFrame(
+        {
+            "theta_deg": theta_vals,
+            "xsec": xsec_vals,
+        },
+        schema={"theta_deg": pl.Float64, "xsec": pl.Float64},
+    ).sort("theta_deg")
+
+    if state is not None:
+        df = df.with_columns(pl.lit(state).alias("state"))
+
+    return df
+
+
+def load_all_fresco_fort200_long(
+    fresco_dir: str | Path,
+    *,
+    theta_max: float | None = None,
+    pattern: str = "fort.20*",
+) -> pl.DataFrame:
+    """
+    Load all split fort.20x files in a directory into one long/tidy DataFrame.
+
+    Returns columns:
+        state, theta_deg, xsec
+
+    Uses filename as the default state label.
+    """
+    fresco_dir = Path(fresco_dir)
+
+    if not fresco_dir.exists():
+        raise FileNotFoundError(f"Directory not found: {fresco_dir}")
+    if not fresco_dir.is_dir():
+        raise NotADirectoryError(f"Expected a directory, got file: {fresco_dir}")
+
+    frames: list[pl.DataFrame] = []
+
+    for filepath in sorted(fresco_dir.rglob(pattern)):
+        if not filepath.is_file():
+            continue
+
+        state = filepath.parent.name
+        df = load_fresco_data_fort200(
+            filepath,
+            theta_max=theta_max,
+            state=state,
+        )
+
+        if df.height > 0:
+            frames.append(df)
+
+    if not frames:
+        return pl.DataFrame(
+            {"state": [], "theta_deg": [], "xsec": []},
+            schema={"state": pl.Utf8, "theta_deg": pl.Float64, "xsec": pl.Float64},
+        )
+
+    return pl.concat(frames, how="vertical").select(["state", "theta_deg", "xsec"])

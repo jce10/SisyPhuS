@@ -17,8 +17,8 @@ def main():
     # cfg = load_config("config/config_6Li.yaml")
 
     # (d,p) configs
-    cfg = load_config("config/config_dpLF.yaml")
-    # cfg = load_config("config/config_dpHF.yaml")
+    # cfg = load_config("config/config_dpLF.yaml")
+    cfg = load_config("config/config_dpHF.yaml")
 
     # 2) Load BCI -> DF: angle,counts,scale
     bci_df = load_bci(cfg.paths.bci_file).with_row_index("index")
