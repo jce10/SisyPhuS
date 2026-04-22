@@ -13,7 +13,7 @@ def write_angular_distributions_long(
 ) -> Path:
     """
     Writes a tidy/long CSV with columns:
-        angle, state, xsec, xsec_err
+        state, angle, xsec, xsec_err
     """
     output_dir = Path(output_dir).expanduser().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -24,7 +24,7 @@ def write_angular_distributions_long(
     outpath = output_dir / filename
 
     out = (
-        df.select(["angle", "state", "xsec", "xsec_err"])
+        df.select(["state", "angle",  "xsec", "xsec_err"])
           .sort(["state", "angle"])
     )
 
