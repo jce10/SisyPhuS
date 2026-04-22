@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 # -----------------------------
 # User inputs
 # -----------------------------
-parquet_file = Path("/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/12C_dp_H_included/20deg_5.8kG_200s_cut.parquet")
+parquet_file = Path("/home/jce18b/Esparza_SPS/2025_07_29Si_dp/built/25deg_7.2kG_cut_total.parquet")
 output_csv = Path("energy_calibrated_spectrum.csv")
 
-column_name = "Xshap"
+column_name = "Xavg"
 
 # Histogram settings in mm
 x_min = -300.0
@@ -17,8 +17,8 @@ x_max = 300.0
 n_bins = 600
 
 # Linear calibration: E(mm) = b*x + c
-b = -9.055
-c = 8154.34
+b = -14.126
+c = 9216.70
 
 # Quadratic calibration: E(mm) = a*x^2 + b*x + c
 # a = -0.038
@@ -80,6 +80,7 @@ print(f"Wrote spectrum to: {output_csv.resolve()}")
 print(out_df.head())
 
 plt.step(energy_keV_lin, counts, where="mid")
+plt.title(r"$^{29}\mathrm{Si(d,p)}^{30}\mathrm{Si}, 25^\circ, 7.2kG$")
 plt.xlabel("Energy (keV)")
 plt.ylabel("Counts")
 plt.show()
