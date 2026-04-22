@@ -27,26 +27,26 @@ def find_calc_csv(output_subdir: str | Path, pattern: str = "*angular_distributi
 def main() -> None:
     # 1) Load config
     # # (6Li,d) config
-    # cfg = load_config("config/config_6Li.yaml")
+    cfg = load_config("config/config_6Li.yaml")
 
     # (d,p) configs
     # cfg = load_config("config/config_dpLF.yaml")
-    cfg = load_config("config/config_dpHF.yaml")
+    # cfg = load_config("config/config_dpHF.yaml")
 
     # 2) Locate calculated CSV
     calc_csv = find_calc_csv(cfg.paths.output_subdir)
 
     # 3) Load FRESCO tidy dataframe
-    # fresco_df = load_all_fresco_long(
-    #     cfg.paths.fresco_dir,
-    #     theta_max=70.0,
-    # )
+    fresco_df = load_all_fresco_long(
+        cfg.paths.fresco_dir,
+        theta_max=180.0,
+    )
     # print("fresco directory: ",cfg.paths.fresco_dir)
 
-    fresco_df = load_all_fresco_fort200_long(
-        cfg.paths.fresco_dir,
-        theta_max=70.0,
-    )
+    # fresco_df = load_all_fresco_fort200_long(
+    #     cfg.paths.fresco_dir,
+    #     theta_max=180.0,
+    # )
 
     # print(fresco_df)
     # print(f"FRESCO rows: {fresco_df.height}")
