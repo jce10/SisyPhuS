@@ -70,7 +70,7 @@ def write_levels_to_csv(nuclide: str, levels, outdir="levels_output"):
 
 # Example usage
 if __name__ == "__main__":
-    nuclides = ["13C"]
+    nuclides = ["6Li"]
 
     for nuc in nuclides:
         # mass

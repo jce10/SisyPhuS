@@ -13,6 +13,12 @@ Note: `pip` is highly recommended as the package installer.
 Note x2: You can name your virtual enviornment something other than ".venv" -- edit this to whatever you'd like. To deactivate the environment, use the command `deactivate` in the active terminal. 
 
 # SisyPhuS Workflow
+1) SpectrixFits.py
+    Organize exported fitted data from spectrix. The csv file saved is used to build the input ods file for distribution calculator.
+2) AngDistCalc.py
+    Calculate experimental angular distributions.
+3) AngDistPlot.py or AngDistPlotSingle.py
+    Plot 'em with ease! 
 
 ## Angular Distribution Calculator
     • Reads:

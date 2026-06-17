@@ -4,7 +4,7 @@
 
 # ----- Paths -----
 directories:
-  peak_file: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/input_peaks/6Lid_inputs_shapira.ods"
+  peak_file: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/input_peaks/6Lid_inputs_thesis.ods"
   fresco_dir: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/9Be6Lid_fresco"
   aslan_dir: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/output_peak_files/aslan_data.ods"
   bci_file: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/BCI_outputs/BCI_totals.txt"
@@ -34,3 +34,41 @@ constants:
   avogadro: 6.02214076e23
   barn_to_cm2: 1e-24
   U_TO_MEV: 931.49410242
+
+
+# ----- Spectrix fit paths -----
+spectrix:
+  fits_dir: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/input_peaks/fits"
+  output_prefix: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/input_peaks/fits_peak_table"
+
+  # ----- fit parameters -----
+  energy_unit: keV
+
+  calibration:
+    # Linear: E = m*x + b
+    type: linear
+    m: -9.055
+    b: 8154.34
+
+    # Quadratic alternative:
+    # type: quadratic
+    # a: 0.0
+    # b: -9.055
+    # c: 8154.34
+
+  peak_matching:
+    # Peaks farther than this from the nearest target are marked unassigned.
+    tolerance_keV: 80.0
+
+    # Mapping form lets you control spreadsheet column labels.
+    targets:
+      6860: 6860keV
+      7492: 7492keV
+      7550: 7550keV
+      7688: trapped
+      8220: superrad
+      8866: 8866keV
+      9499: 9499keV/
+      9894: 9894keV
+      10753: 10753keV
+      10818: 10818keV

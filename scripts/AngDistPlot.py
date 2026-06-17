@@ -4,7 +4,8 @@ from pathlib import Path
 import polars as pl
 
 from sisyphus.config import load_config
-from sisyphus.LoadFRESCO import load_all_fresco_long, load_fresco_data_fort200, load_all_fresco_fort200_long
+from sisyphus.LoadFRESCO import load_all_fresco_long
+# from sisyphus.LoadFRESCO import load_fresco_block, load_fresco_state_from_dir
 from sisyphus.MegaDistLong import mega_plotter_long
 
 
@@ -40,6 +41,7 @@ def main() -> None:
     fresco_df = load_all_fresco_long(
         cfg.paths.fresco_dir,
         theta_max=180.0,
+        block_index=1
     )
     # print("fresco directory: ",cfg.paths.fresco_dir)
 
@@ -48,9 +50,6 @@ def main() -> None:
     #     theta_max=180.0,
     # )
 
-    # print(fresco_df)
-    # print(f"FRESCO rows: {fresco_df.height}")
-    # 4) Plot
     mega_plotter_long(
         calc_csv,
         old_data_ods=cfg.paths.aslan_dir,

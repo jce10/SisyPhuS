@@ -6,7 +6,7 @@ from pathlib import Path
 import polars as pl
 
 from sisyphus.config import load_config
-from sisyphus.LoadFRESCO import load_all_fresco_long, load_all_fresco_fort200_long
+from sisyphus.LoadFRESCO import load_all_fresco_long
 from sisyphus.MegaDistLong import plot_single_long
 
 
@@ -48,8 +48,8 @@ def list_states(calc_csv: str | Path, theta_max: float | None = None) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Plot a single angular distribution from long-format CSV.")
-    # parser.add_argument("--config", default="config/config_6Li.yaml")
-    parser.add_argument("--config", default="config/config_dpHF.yaml")
+    parser.add_argument("--config", default="config/config_6Li.yaml")
+    # parser.add_argument("--config", default="config/config_dpHF.yaml")
     # parser.add_argument("--config", default="config/config_dpLF.yaml")
     parser.add_argument("--list", action="store_true", help="List available states (with indices) and exit.")
     parser.add_argument("--state", default=None, help="Exact (or substring) state label, e.g. '10753 keV 7/2-'")
@@ -69,8 +69,12 @@ def main() -> None:
         list_states(calc_csv, theta_max=args.theta_max)
         return
 
-    # fresco_df = load_all_fresco_long(paths.fresco_dir, theta_max=args.theta_max)
-    fresco_df = load_all_fresco_fort200_long(paths.fresco_dir, theta_max=args.theta_max)
+    fresco_df = load_all_fresco_long(
+        paths.fresco_dir, 
+        theta_max=args.theta_max,
+        block_index=0
+    )
+    # fresco_df = load_all_fresco_fort200_long(paths.fresco_dir, theta_max=args.theta_max)
 
     resolved = plot_single_long(
         calc_csv,

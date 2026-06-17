@@ -43,7 +43,7 @@ if __name__ == "__main__":
     #reaction info
     
     masses = []
-    for nuc in ["29Si", "2H", "1H", "30Si"]:
+    for nuc in ["58Ni", "6Li", "4He", "60Cu"]:
         m = get_nuclear_mass(nuc)
         masses.append(m)
         # print(f"{nuc}: {m:.3f} MeV/c^2") #optional print
