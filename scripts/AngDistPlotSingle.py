@@ -72,7 +72,7 @@ def main() -> None:
     fresco_df = load_all_fresco_long(
         paths.fresco_dir, 
         theta_max=args.theta_max,
-        block_index=0
+        block_index=1
     )
     # fresco_df = load_all_fresco_fort200_long(paths.fresco_dir, theta_max=args.theta_max)
 

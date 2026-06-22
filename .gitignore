@@ -66,6 +66,7 @@ pip-delete-this-directory.txt
 *.root
 *.parquet
 *.pkl
+# 2025_06_13C_Campaign/
 
 # -----------------------------------------------------------------------------
 # Compiled or binary files

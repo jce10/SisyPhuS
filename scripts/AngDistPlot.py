@@ -5,7 +5,6 @@ import polars as pl
 
 from sisyphus.config import load_config
 from sisyphus.LoadFRESCO import load_all_fresco_long
-# from sisyphus.LoadFRESCO import load_fresco_block, load_fresco_state_from_dir
 from sisyphus.MegaDistLong import mega_plotter_long
 
 
@@ -45,14 +44,11 @@ def main() -> None:
     )
     # print("fresco directory: ",cfg.paths.fresco_dir)
 
-    # fresco_df = load_all_fresco_fort200_long(
-    #     cfg.paths.fresco_dir,
-    #     theta_max=180.0,
-    # )
-
+    # 4) Generate mega plot
     mega_plotter_long(
         calc_csv,
         old_data_ods=cfg.paths.aslan_dir,
+        # old_data_ods=None,
         fresco_df=fresco_df,
         save_path=None,  # could add config key later if desired
         n_cols=3,

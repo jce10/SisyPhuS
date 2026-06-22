@@ -210,7 +210,7 @@ def mega_plotter_long(
         if logy:
             ax.set_yscale("log")
 
-        ax.set_xlabel(r"$\theta_{lab}$ (deg)")
+        # ax.set_xlabel(r"$\theta_{lab}$ (deg)")
         ax.set_ylabel(r"$d\sigma/d\Omega$ (mb/sr)")
         ax.set_title("\n".join(textwrap.wrap(str(state), width=28)))
         ax.legend(fontsize=9)
