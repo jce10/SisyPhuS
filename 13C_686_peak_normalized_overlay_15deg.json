@@ -1,0 +1,95 @@
+{
+  "input_files": {
+    "6Li,d": "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/9Be6Lid/15deg_13.85kG_total_cut.parquet",
+    "d,p": "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/built/12Cdp/LowField/15deg_5.6kG_total_cut.parquet"
+  },
+  "y_mode": "counts-per-kev",
+  "normalization": "peak-area",
+  "normalization_definition": "The (6Li,d) spectrum is held at scale 1. The (d,p) spectrum is multiplied by the ratio of the background-subtracted 6.86-MeV peak areas: A_(6Li,d) / A_(d,p). A linear local background is estimated from the two sidebands.",
+  "reference_windows_mev": {
+    "peak": [
+      6.82,
+      6.9
+    ],
+    "left_sideband": [
+      6.72,
+      6.8
+    ],
+    "right_sideband": [
+      6.92,
+      7.0
+    ]
+  },
+  "scale_factors": {
+    "6Li,d": 1.0,
+    "d,p": 0.11157852367273366
+  },
+  "reference_peak_diagnostics": {
+    "6Li,d": {
+      "gross_counts": 1980.7099176234979,
+      "estimated_background_counts": 663.5165805701641,
+      "net_peak_area_counts": 1317.1933370533338,
+      "left_sideband_counts": 791.5399021854098,
+      "right_sideband_counts": 535.4932589549194,
+      "left_sideband_density_counts_per_mev": 9894.248777317614,
+      "right_sideband_density_counts_per_mev": 6693.665736936487
+    },
+    "d,p": {
+      "gross_counts": 20181.103634707517,
+      "estimated_background_counts": 8376.024183067351,
+      "net_peak_area_counts": 11805.079451640166,
+      "left_sideband_counts": 7512.337805277155,
+      "right_sideband_counts": 9239.71056085754,
+      "left_sideband_density_counts_per_mev": 93904.22256596436,
+      "right_sideband_density_counts_per_mev": 115496.38201071916
+    }
+  },
+  "xlim_mev": [
+    6.0,
+    11.3
+  ],
+  "li6_display_range_mev": [
+    6.0,
+    11.3
+  ],
+  "valid_event_totals": {
+    "6Li,d": 382821,
+    "d,p": 812068
+  },
+  "spectrum_configuration": {
+    "6Li,d": {
+      "name": "6Li,d",
+      "column_name": "Xshap",
+      "x_range_mm": [
+        -300.0,
+        200.0
+      ],
+      "x_bin_width_mm": 1.0,
+      "calibration_type": "quadratic",
+      "linear_b": -0.00852,
+      "linear_c": 8.12,
+      "quad_a": -9.928367235e-06,
+      "quad_b": -0.02230239502,
+      "quad_c": 9.333177567,
+      "color": "#0072B2",
+      "label": "$^{9}\\mathrm{Be}(^{6}\\mathrm{Li},d)^{13}\\mathrm{C}$\n$B=13.852$ kG, $E_{^{6}\\mathrm{Li}}=32$ MeV"
+    },
+    "d,p": {
+      "name": "d,p",
+      "column_name": "Xshap",
+      "x_range_mm": [
+        -320.0,
+        250.0
+      ],
+      "x_bin_width_mm": 1.0,
+      "calibration_type": "linear",
+      "linear_b": -0.008594831532,
+      "linear_c": 8.251265961,
+      "quad_a": 0.0,
+      "quad_b": -0.008594831532,
+      "quad_c": 8.251265961,
+      "color": "#D55E00",
+      "label": "$^{12}\\mathrm{C}(d,p)^{13}\\mathrm{C}$\n$B=5.625$ kG, $E_d=16$ MeV"
+    }
+  }
+}

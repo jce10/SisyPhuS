@@ -86,33 +86,31 @@ def PluckBCI(scaler_dir, run_groups, output_dir=None, output_csv="BCI_counts.csv
             scale = 10
             f.write(f"{angle}\t|\t{total}\t|\t{scale:d}\n")
 
+
     # --- Print summary ---
-    # print(f"\n✅ Done! Results written to:\n  {out_csv}\n  {out_txt}")
-    # print(f"\n📊 Total BeamInt by angle:")
-    # for angle_label, total in angle_totals.items():
-    #     print(f"  {angle_label}: {total:,}")
-    # print(f"\n📈 Grand Total BeamInt across all angles: {grand_total:,}")
+    print(f"\n✅ Done! Results written to:\n  {out_csv}\n  {out_txt}")
+    print(f"\n📊 Total BeamInt by angle:")
+    for angle_label, total in angle_totals.items():
+        print(f"  {angle_label}: {total:,}")
+    print(f"\n📈 Grand Total BeamInt across all angles: {grand_total:,}")
 
 
 if __name__ == "__main__":
-    
-    
-    # 9Be(6Li,d)13C scalers
-    # scaler_dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/scalers/9Be_6Lid_scalers"
-    # output_dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/BCI_outputs"
 
-    # # 6Lid higher Ex runs
-    run_groups = {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 9Be(6Li,d)13C scalers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+    # Thesis 6Lid higher Ex runs
+    # run_groups = {
     #     # "7": [(317, 319),(394, 398), (427, 440), (465, 465)],
-        "10": [(314, 315),(378, 382),(385,389), (426,426),(441, 447)],
-        "12": [(341, 346),(351, 352), (458, 464)],
-        "15": [(320, 329), (340, 340), (450, 457)],
-        "17": [(369, 375)],
-        "20": [(355,364)],
-        "25": [(420, 425)],
-        "35": [(415, 418)],
-        "40": [(404, 413)]
-    }
+    #     "10": [(314, 315),(378, 382),(385,389), (426,426),(441, 447)],
+    #     "12": [(341, 346),(351, 352), (458, 464)],
+    #     "15": [(320, 329), (340, 340), (448, 457)],
+    #     "17": [(369, 375)],
+    #     "20": [(355, 364)],
+    #     "25": [(420, 425)],
+    #     "35": [(415, 418)],
+    #     "40": [(404, 413)]
+    # }
 
     # # 6Lid lower Ex runs
     # run_groups = {
@@ -126,28 +124,27 @@ if __name__ == "__main__":
     #     "40": [(414, 414)]
     # }
 
-    # PluckBCI(scaler_dir, run_groups, output_dir=output_dir, output_csv="BCI_counts_6Lid_HL.csv")
-    # PluckBCI(scaler_dir, run_groups, output_dir=output_dir, output_csv="BCI_counts_6Lid_LL.csv")
+    # scaler_dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/scalers/9Be6Lid_scalers"
+    # output_dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/BCI_outputs"
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-    # 12C(d,p)13C scalers
-    # scaler_dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/scalers/12Cdp_scalers"
-    # output_dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/BCI_outputs"
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 12C(d,p)13C scalers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-    # # dp low field setting
-    # run_groups = {
-    #     "10": [(217, 218), (237, 241)],
-    #     "15": [(211, 213), (233, 236)],
-    #     "20": [(222, 228)],
-    #     "32": [(155, 160)],
-    #     "35": [(173, 178)],
-    #     "40": [(140, 149)],
-    #     "45": [(123, 124), (162, 168), (196, 199)],
-    #     "50": [(107, 113), (191, 195)],
-    # }
 
-    # # dp high field setting
+    # dp low field setting
+    run_groups = {
+        "10": [(217, 218), (237, 241)],
+        "15": [(211, 213), (233, 236)],
+        # "20": [(127, 130), (179, 184), (222, 228)], # removed 127-130 and 179-184 because B-field instabiltiy
+        "20": [(222, 228)],
+        "32": [(155, 160)],
+        "35": [(173, 178)],
+        "40": [(140, 149)],
+        "45": [(123, 124), (162, 168), (196, 199)],
+        "50": [(107, 113), (191, 195)],
+    }
+
+    # dp high field setting
     # run_groups = {
     #     "10": [(215, 215)],
     #     "15": [(207, 208), (229, 230)],
@@ -159,8 +156,10 @@ if __name__ == "__main__":
     #     "50": [(116, 117), (188, 189)],
     # }
 
-    # PluckBCI(scaler_dir, run_groups, output_dir=output_dir, output_csv="BCI_counts_6Lid_HL.csv")
-    # PluckBCI(scaler_dir, run_groups, output_dir=output_dir, output_csv="BCI_counts_6Lid_LL.csv")
+    scaler_dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/scalers/12Cdp_scalers"
+    output_dir = "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/BCI_outputs"
+
+
 
     PluckBCI(scaler_dir, run_groups, output_dir=output_dir, output_csv="BCI_totals.txt")
     

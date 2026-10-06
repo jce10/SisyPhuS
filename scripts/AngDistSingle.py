@@ -55,7 +55,7 @@ def main() -> None:
     parser.add_argument("--state", default=None, help="Exact (or substring) state label, e.g. '10753 keV 7/2-'")
     parser.add_argument("--match", default=None, help="Substring match, e.g. '10753' or '7/2-'")
     parser.add_argument("--index", type=int, default=None, help="Index in sorted unique state list (0-based)")
-    parser.add_argument("--theta-max", type=float, default=70.0)
+    parser.add_argument("--theta-max", type=float, default=180.0)
     parser.add_argument("--save", default=None, help="Optional output image path")
     args = parser.parse_args()
 

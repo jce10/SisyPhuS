@@ -1,0 +1,88 @@
+1D histograms
+python thesis_parquet_plotter_v3.py 15deg_13.85kG_total.parquet \
+    --kind hist \
+    --y Xavg Xshap \
+    --bins 600 \
+    --hist-range -300 300 \
+    --normalize max \
+    --label '$X_{\mathrm{avg}}$' '$X_{\mathrm{shap}}$' \
+    --xlabel 'Focal-Plane Position (mm)' \
+    --ylabel 'Normalized Counts' \
+    --out xavg_vs_xshap.png
+
+
+
+2D histograms
+
+solo 2D histograms
+python thesis_parquet_plotter_v3.py 15deg_13.85kG_total.parquet \
+    --kind hist2d \
+    --panel ScintLeftEnergy:AnodeBackEnergy \
+    --panel-range=30:1100:0:4096 \
+    --panel-bins 512:512 \
+    --panel-xlabel '$E$' \
+    --panel-ylabel '$\Delta E$' \
+    --out AvS.png
+
+python thesis_parquet_plotter_v3.py 15deg_13.85kG_total.parquet \
+    --kind hist2d \
+    --panel X1:DelayFrontRightEnergy \
+    --panel-range=-300:300:0:4096 \
+    --panel-bins 600:512 \
+    --panel-xlabel '$X_1$' \
+    --panel-ylabel '$\Delta$E' \
+    --out DLvX1.png
+
+
+1x2 histogram
+python thesis_parquet_plotter_v3.py 15deg_13.85kG_total.parquet \
+    --kind hist2d \
+    --panel X1:DelayFrontRightEnergy \
+    --panel ScintLeftEnergy:AnodeBackEnergy \
+    --layout 1x2 \
+    --panel-range=-300:300:0:4096 \
+    --panel-range=0:4096:0:4096 \
+    --panel-bins 600:512 \
+    --panel-bins 512:512 \
+    --no-colorbar \
+    --out focal_plane_pid.png
+
+
+
+Available Column names:
+AnodeFrontEnergy, 
+AnodeFrontShort, 
+AnodeFrontTime, 
+AnodeBackEnergy, 
+AnodeBackShort, 
+AnodeBackTime, 
+ScintLeftEnergy, 
+ScintLeftShort, 
+ScintLeftTime, 
+ScintRightEnergy, 
+ScintRightShort, 
+ScintRightTime, 
+CathodeEnergy, 
+CathodeShort, 
+CathodeTime, 
+DelayFrontLeftEnergy, 
+DelayFrontLeftShort, 
+DelayFrontLeftTime, 
+DelayFrontRightEnergy, 
+DelayFrontRightShort, 
+DelayFrontRightTime, 
+DelayBackLeftEnergy, 
+DelayBackLeftShort, 
+DelayBackLeftTime, 
+DelayBackRightEnergy, 
+DelayBackRightShort, 
+DelayBackRightTime, 
+MonitorEnergy, 
+MonitorShort, 
+MonitorTime, 
+X1, 
+X2, 
+Xavg, 
+Xshap, 
+Theta, 
+ThetaShap

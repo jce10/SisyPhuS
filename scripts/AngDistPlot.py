@@ -27,10 +27,10 @@ def find_calc_csv(output_subdir: str | Path, pattern: str = "*angular_distributi
 def main() -> None:
     # 1) Load config
     # # (6Li,d) config
-    cfg = load_config("config/config_6Li.yaml")
+    # cfg = load_config("config/config_6Li.yaml")
 
     # (d,p) configs
-    # cfg = load_config("config/config_dpLF.yaml")
+    cfg = load_config("config/config_dpLF.yaml")
     # cfg = load_config("config/config_dpHF.yaml")
 
     # 2) Locate calculated CSV

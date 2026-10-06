@@ -44,34 +44,3 @@ spectrix:
   fits_dir: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/input_peaks/thesis_fits_LL"
   output_prefix: "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/6Lid/input_peaks/fits_peak_table"
 
-  # ----- fit parameters -----
-  energy_unit: keV
-
-  calibration:
-    # Linear: E = m*x + b
-    type: linear
-    m: -9.055
-    b: 8154.34
-
-    # Quadratic alternative:
-    # type: quadratic
-    # a: 0.0
-    # b: -9.055
-    # c: 8154.34
-
-  peak_matching:
-    # Peaks farther than this from the nearest target are marked unassigned.
-    tolerance_keV: 80.0
-
-    # Mapping form lets you control spreadsheet column labels.
-    targets:
-      6860: 6860keV
-      7492: 7492keV
-      7550: 7550keV
-      7688: trapped
-      8220: superrad
-      8866: 8866keV
-      9499: 9499keV
-      9894: 9894keV
-      10753: 10753keV
-      10818: 10818keV

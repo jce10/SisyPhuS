@@ -4,7 +4,8 @@
 
 # ----- Paths -----
 directories:
-  peak_file:     "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/input_peaks/12Cdp_inputpeaksHF.ods"
+  # peak_file:     "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/input_peaks/12Cdp_inputpeaksHF.ods"
+  peak_file:     "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/input_peaks/12Cdp_inputpeaksHF_thesis.ods"
   fresco_dir:    "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/12Cdp_fresco"
   aslan_dir:     "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/prev_exp_data/ohnuma_data.ods"
   bci_file:      "/home/jce18b/Esparza_SPS/2025_06_13C_campaign/dp/BCI_outputs/BCI_totals_HF.txt"

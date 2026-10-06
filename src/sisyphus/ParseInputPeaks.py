@@ -45,7 +45,7 @@ def parse_input_peaks_ods(file_path: str | Path) -> pl.DataFrame:
         # Grab data from row 2 onward for this pair
         block = pdf.iloc[2:, [col, col + 1]].copy()
         block = block.apply(pd.to_numeric, errors="coerce")
-        block = block.dropna(how="all").reset_index(drop=True)
+        # block = block.dropna(how="all").reset_index(drop=True)
 
         # Build rows
         for i, (vol, unc) in enumerate(zip(block.iloc[:, 0].tolist(), block.iloc[:, 1].tolist())):
